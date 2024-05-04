@@ -53,12 +53,13 @@ useEffect(()=>{
   setMatchPwdValidation(matchTest);
 },[pwd,matchPwd]);
 
-//-------------------------------- pwd and matchPwd test --------------------------------- 
+//-------------------------------- pwd and matchPwd and User test --------------------------------- 
 
 useEffect(()=>{
 setErrMsg('');
 },[user,pwd,matchPwd]);
 
+//-------------------------------- handel submit --------------------------------- 
 const handelSubmit = async (e)=>{
 e.preventDefault();
 
@@ -90,7 +91,7 @@ setErrMsg('No server response');
   }else {
     setErrMsg('Registration Failed');
   }
-
+errorRef.current.focus();
 }
 
 // console.log(user,pwd);
@@ -107,7 +108,7 @@ setErrMsg('No server response');
 </section>
     ) : (
       <section>
-    <p  className='mb-7' aria-live='assertive'>{errMsg}</p>
+    <p ref={errorRef} className='mb-7' aria-live='assertive'>{errMsg}</p>
 
       <div className='bg-blue-400 px-5 py-4 rounded select-none'>
 <h2 className='text-4xl mb-6'>Register</h2>
@@ -123,7 +124,7 @@ setErrMsg('No server response');
  />
 
 <p  className={userFocus && user && !userValidation ? "block bg-red-700 text-white py-2 px-4" : "hidden"}>
-Is the sime man,Nothing has changed.
+Is the sime man,Nothing has changed User.
 </p>
 
 <label className='text-xl'>Password:</label>
@@ -135,7 +136,7 @@ Is the sime man,Nothing has changed.
  aria-invalid={pwdValidation ? "false" : "true"} />
 
 <p className={pwdFocus && pwd && !pwdValidation ? "block bg-red-700 text-white py-2 px-4" : "hidden"}>
-  Is the sime man,Nothing has changed.
+  Is the sime man,Nothing has changed PWD.
 </p>
 
 <label className='text-xl'>Confirm Password:</label>
@@ -148,7 +149,7 @@ aria-invalid={pwdValidation ? "false" : "true"}
  />
 
 <p  className={matchPwdFocus && matchPwd && !matchPwdValidation ? "block bg-red-700 text-white py-2 px-4" : "hidden"}>
-  Is the sime man,Nothing has changed.
+  Is the sime man,Nothing has changed matchPwd.
 </p>
 
 <button disabled={!userValidation || !pwdValidation || !matchPwdValidation ? true : false} className='bg-blue-700 transition outline-none hover:bg-blue-400 text-xl py-3 px-6 rounded'>Sign Up</button>
