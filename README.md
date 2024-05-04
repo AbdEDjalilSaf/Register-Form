@@ -1,3 +1,5 @@
+# React + Vite
+
 Tailwind CSS is one of the most beautiful ✨ CSS framework that makes it very much easy 🍃 to design our websites and React is a library that many Front-End developers love to work with to make user interfaces.
 
 But what if we combine the these 2 best technologies together?🤔 In this blog I will show you how to configure Tailwind CSS with React JS:
