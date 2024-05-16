@@ -1,70 +1,99 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const LogIn = () => {
+import axios from './api/axios';
 
-const userRef = useRef();
-const errorRef = useRef();
+const Login = () => {
 
-const [user,setUser] = useState('');
-const [pwd,setPwd] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
-const [errMsg,setErrMsg] = useState('');
-const [success,setSuccess] = useState(false);
+    const userRef = useRef();
+    const errRef = useRef();
 
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
-//-------------------------------- Ref's focus  ------------------------------------- 
+    useEffect(() => {
+        userRef.current.focus();
+    }, [])
 
-useEffect(()=>{
-  userRef.current.focus();
-},[]);
+    useEffect(() => {
+        setErrMsg('');
+    }, [user, pwd])
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-//-------------------------------- pwd and matchPwd test --------------------------------- 
+        try {
+            const response = await axios.post('https://jsonplaceholder.typicode.com/todos',
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            console.log({roles,accessToken});
+            setAuth({ user, pwd, roles, accessToken });
+            setUser('');
+            setPwd('');
+            navigate(from, { replace: true });
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
+        }
+    }
 
-useEffect(()=>{
-  setErrMsg('');
-},[user,pwd]);
+    return (
 
+        <section>
+            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <h1>Sign In</h1>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="username">Username:</label>
+                <input
+                    type="text"
+                    id="username"
+                    ref={userRef}
+                    autoComplete="off"
+                    onChange={(e) => setUser(e.target.value)}
+                    value={user}
+                    required
+                />
 
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    onChange={(e) => setPwd(e.target.value)}
+                    value={pwd}
+                    required
+                />
+                <button>Sign In</button>
+            </form>
+            <p>
+                Need an Account?<br />
+                <span className="line">
+                    <Link to="/register">Sign Up</Link>
+                </span>
+            </p>
+        </section>
 
-  return (
-    <section>
-    <p ref={errorRef} className={errMsg ? 'block mb-7' : 'hidden mb-7' } aria-live='assertive'>{errMsg}</p>
-
-      <div className='bg-blue-400 px-5 py-4 rounded select-none'>
-<h2 className='text-4xl mb-6'>Log In</h2>
-      <form className='flex flex-col gap-3 text-left' >
-<label className='text-xl' htmlFor='username'>Username:</label>
-<input type='text' ref={userRef} className='w-80 px-4 py-2 rounded mb-3' placeholder='your name...' 
- onChange={(e)=> setUser(e.target.value)} 
- required  
- id='username'
- aria-invalid=''
- />
-
-{/* 
-<p  className={''}>
-Is the sime man,Nothing has changed.
-</p> */}
-
-
-<label className='text-xl'>Password:</label>
-<input type='password'  className='w-80 px-4 py-2 rounded mb-3' placeholder='your password...'  
- onChange={(e)=> setPwd(e.target.value)} 
- required  
- aria-invalid='' />
-
-
-{/* <p className=''>
-  Is the sime man,Nothing has changed.
-</p> */}
-
-
-<button  className='bg-blue-700 transition outline-none hover:bg-blue-400 text-xl py-3 px-6 rounded'>Sign Up</button>
-      </form>
-    </div>
-    </section>
-  )
+    )
 }
 
-export default LogIn
+export default Login

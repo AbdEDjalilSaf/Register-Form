@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from './api/axios'
 
-const userJWT = () => {
+const UserJWT = () => {
+
 const [users,setUser] = useState('');
 
 //------------------------------------ UseEffect -------------------------------------
@@ -12,17 +13,21 @@ const controller = new AbortController();
 const getUsers = async ()=>{
 
   try {
-   
+  const response = axios.get('https://jsonplaceholder.typicode.com/todos',{
+    signal:controller.signal
+  });
     isMounted && setUser(response.data);
   }catch(err){
     console.error(err);
   }
-  getUsers();
+  // console.log(response.data);
   return ()=>{
     isMounted = false;
     controller.abort();
   }
 }
+
+getUsers();
 
 },[]);
 
@@ -32,8 +37,8 @@ const getUsers = async ()=>{
   return (
     <>
     <article>
-      <h2>User List</h2>
-{users?.lenght 
+      <h2 className='text-3xl mb-5'>User List</h2>
+{users 
 ? 
 (
 <ul>
@@ -65,4 +70,4 @@ const getUsers = async ()=>{
   )
 }
 
-export default userJWT
+export default UserJWT
