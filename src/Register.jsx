@@ -152,7 +152,7 @@ aria-invalid={pwdValidation ? "false" : "true"}
   Is the sime man,Nothing has changed matchPwd.
 </p>
 
-<button disabled={!userValidation || !pwdValidation || !matchPwdValidation ? true : false} className='bg-blue-700 transition outline-none hover:bg-blue-400 text-xl py-3 px-6 rounded'>Sign Up</button>
+<button disabled={!userValidation || !pwdValidation || !matchPwdValidation ? true : false} className='bg-blue-700 transition outline-none hover:bg-blue-400 cursor-pointer text-xl py-3 px-6 rounded'>Sign Up</button>
       </form>
     </div>
     </section>
