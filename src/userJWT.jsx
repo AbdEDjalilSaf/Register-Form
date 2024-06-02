@@ -31,27 +31,19 @@ getUsers();
 
 },[]);
 
-
-
-
   return (
     <>
     <article>
-      <h2 className='text-3xl mb-5'>User List</h2>
-{users 
-? 
+      <h2 className='text-3xl mb-5'>User List:<br /></h2>
+{users?.length?
 (
 <ul>
   {users.map((user,i)=>{
-    <li key={i}>{user?.username}</li>
+    <li key={i}>{user?.username}<br /></li>
   })}
 </ul>
 
-
-
-
-
-):<p>No User To Display</p>
+) : <p>No Users To Display</p>
 
 
 
