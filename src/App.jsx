@@ -1,14 +1,14 @@
 import { useState } from 'react'
 // import Register from "./Register"
 import './App.css'
-import Login from './LogIn';
+import UserJWT from './UserJWT';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-  <Login />
+  <UserJWT />
     </>
   )
 }
