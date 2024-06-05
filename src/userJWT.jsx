@@ -13,7 +13,7 @@ const controller = new AbortController();
 const getUsers = async ()=>{
 
   try {
-  const response = axios.get('https://jsonplaceholder.typicode.com/todos',{
+  const response = axios.get('regester',{
     signal:controller.signal
   });
     isMounted && setUser(response.data);

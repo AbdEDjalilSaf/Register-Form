@@ -86,7 +86,7 @@ setSuccess(true);
 
   if(!err?.respacct){
 setErrMsg('No server response');
-  }else if(err.respacct?.status === 409){
+  }else if(err?.respacct?.status === 409){
     setErrMsg('userName Taken');
   }else {
     setErrMsg('Registration Failed');
